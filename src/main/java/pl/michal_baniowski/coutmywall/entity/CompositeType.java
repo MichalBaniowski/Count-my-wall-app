@@ -12,7 +12,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "composite_types")
 public class CompositeType {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -1,27 +1,19 @@
-package pl.michal_baniowski.coutmywall.entity;
+package pl.michal_baniowski.coutmywall.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.michal_baniowski.coutmywall.entity.CompositeMaterial;
+import pl.michal_baniowski.coutmywall.entity.CompositeType;
 
-import javax.persistence.*;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-@Entity
-@Table(name = "composites")
-public class Composite {
-    @Id
-    @GeneratedValue
+public class CompositeDto {
     private Long id;
-    @ManyToOne
     private CompositeType compositeType;
-    @Column(nullable = false)
     private String name;
     private String description;
-    @ManyToMany
     private List<CompositeMaterial> compositeMaterials;
     private Double compositeHeatTransferCoefficient;
     private Double compositeDiffusionResistance;
