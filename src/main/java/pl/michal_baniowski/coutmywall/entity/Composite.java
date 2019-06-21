@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -14,15 +15,16 @@ import java.util.List;
 @Table(name = "composites")
 public class Composite {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
     private CompositeType compositeType;
     @Column(nullable = false)
     private String name;
     private String description;
-    @ManyToMany
-    private List<CompositeMaterial> compositeMaterials;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<CompositeMaterial> compositeMaterials = new ArrayList<>();
+    private Double compositeSumOfHeatResistance;
     private Double compositeHeatTransferCoefficient;
     private Double compositeDiffusionResistance;
 }

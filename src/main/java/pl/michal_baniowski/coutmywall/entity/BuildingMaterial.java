@@ -21,8 +21,7 @@ public class BuildingMaterial {
     private String name;
     @Column(nullable = false)
     private Double thermalConductivity;
-    @Column(nullable = false)
     private Double steamTransferCoefficient;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<MaterialCategory> categories = new ArrayList<>();
 }

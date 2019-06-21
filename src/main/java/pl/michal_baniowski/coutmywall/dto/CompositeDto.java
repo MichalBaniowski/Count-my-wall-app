@@ -15,6 +15,7 @@ public class CompositeDto {
     private String name;
     private String description;
     private List<CompositeMaterial> compositeMaterials;
+    private Double compositeSumOfHeatResistance;
     private Double compositeHeatTransferCoefficient;
     private Double compositeDiffusionResistance;
 }

@@ -17,7 +17,7 @@ public class CompositeMaterial {
     private Long id;
     @ManyToOne
     private BuildingMaterial buildingMaterial;
-    private Double materialHeatTransferCoefficient;
+    private Double materialHeatResistance;
     private Double materialDiffusionResistance;
-    private Integer thickness;
+    private Double thickness; //in meters
 }
