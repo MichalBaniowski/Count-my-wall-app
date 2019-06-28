@@ -24,4 +24,7 @@ public class BuildingMaterial {
     private Double steamTransferCoefficient;
     @ManyToMany(fetch = FetchType.EAGER)
     private List<MaterialCategory> categories = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User author;
 }

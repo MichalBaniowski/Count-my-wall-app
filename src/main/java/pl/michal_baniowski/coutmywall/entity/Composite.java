@@ -22,8 +22,11 @@ public class Composite {
     @Column(nullable = false)
     private String name;
     private String description;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<CompositeMaterial> compositeMaterials = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User author;
     private Double compositeSumOfHeatResistance;
     private Double compositeHeatTransferCoefficient;
     private Double compositeDiffusionResistance;

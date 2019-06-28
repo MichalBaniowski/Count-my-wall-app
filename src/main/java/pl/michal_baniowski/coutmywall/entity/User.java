@@ -10,12 +10,15 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "composite_materials")
-public class CompositeMaterial {
+@Table(name = "users")
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
-    private BuildingMaterial buildingMaterial;
-    private Double thickness; //in meters
+    @Column(unique = true, nullable = false)
+    private String email;
+    @Column(unique = true, nullable = false)
+    private String username;
+    @Column(nullable = false)
+    private String password;
 }
