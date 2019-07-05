@@ -1,4 +1,4 @@
-package pl.michal_baniowski.coutmywall.controller;
+package pl.michal_baniowski.coutmywall.controller.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/building-materials")
-public class BuildingMaterialController {
+public class RestBuildingMaterialController {
 
     @Autowired
     private BuildingMaterialService materialService;

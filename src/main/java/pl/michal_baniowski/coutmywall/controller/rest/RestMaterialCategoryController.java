@@ -1,4 +1,4 @@
-package pl.michal_baniowski.coutmywall.controller;
+package pl.michal_baniowski.coutmywall.controller.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/material-categories")
-public class MaterialCategoryController {
+public class RestMaterialCategoryController {
     @Autowired
     private MaterialCategoryService categoryService;
 

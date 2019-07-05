@@ -7,9 +7,9 @@ import pl.michal_baniowski.coutmywall.entity.BuildingMaterial;
 import pl.michal_baniowski.coutmywall.entity.CompositeMaterial;
 import pl.michal_baniowski.coutmywall.entity.MaterialCategory;
 import pl.michal_baniowski.coutmywall.entity.User;
-import pl.michal_baniowski.coutmywall.exception.AccessDeniedException;
-import pl.michal_baniowski.coutmywall.exception.FailedRepositoryOperationException;
-import pl.michal_baniowski.coutmywall.exception.NoEntityFound;
+import pl.michal_baniowski.coutmywall.exception.exception.AccessDeniedException;
+import pl.michal_baniowski.coutmywall.exception.exception.FailedRepositoryOperationException;
+import pl.michal_baniowski.coutmywall.exception.exception.NoEntityFound;
 import pl.michal_baniowski.coutmywall.mapper.BuildingMaterialMapper;
 import pl.michal_baniowski.coutmywall.repository.*;
 
@@ -60,8 +60,8 @@ public class BuildingMaterialService {
                 .collect(Collectors.toList());
     }
 
-    public List<BuildingMaterialDto> getAllMaterialsByName(String name, Long userId) {
-        Optional<User> userOptional = userRepository.findById(userId);
+    public List<BuildingMaterialDto> getAllMaterialsByName(String name, String username) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
         if (userOptional.isPresent()) {
             return materialRepository.findAllByName(name, userOptional.get()).stream()
                     .map(mapper::mapToDto)
@@ -70,8 +70,8 @@ public class BuildingMaterialService {
         return getAllDefaultMaterialsByName(name);
     }
 
-    public List<BuildingMaterialDto> getAllDefaultAndUsersMaterials(Long userId) {
-        Optional<User> userOptional = userRepository.findById(userId);
+    public List<BuildingMaterialDto> getAllDefaultAndUsersMaterials(String username) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
         if (userOptional.isPresent()) {
             return materialRepository.findAll(userOptional.get()).stream()
                     .map(mapper::mapToDto)
@@ -80,8 +80,8 @@ public class BuildingMaterialService {
         return getAllDefaultBuildingMaterials();
     }
 
-    public List<BuildingMaterialDto> getAllDefaultAndUsersMaterialsByCategory(Long userId, String categoryName) {
-        Optional<User> userOptional = userRepository.findById(userId);
+    public List<BuildingMaterialDto> getAllDefaultAndUsersMaterialsByCategory(String username, String categoryName) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
         if (!userOptional.isPresent()) {
             getAllDefaultMaterialsByCategory(categoryName);
         }
@@ -116,13 +116,13 @@ public class BuildingMaterialService {
         }
     }
 
-    public void deleteMaterial(Long materialId, Long userId) {
+    public void deleteMaterial(Long materialId, String username) {
         Optional<BuildingMaterial> materialOptional = materialRepository.findById(materialId);
         if(!materialOptional.isPresent()) {
             throw new NoEntityFound("Nie ma takiego materiału w bazie");
         }
         User user = materialOptional.get().getAuthor();
-        if(user == null || user.getId() != userId) {
+        if(user == null || !user.getUsername().equals(username)) {
             throw new AccessDeniedException();
         }
         List<CompositeMaterial> compositeMaterials = compositeMaterialRepository.findAllByBuildingMaterial(materialOptional.get());
@@ -134,9 +134,9 @@ public class BuildingMaterialService {
         }
     }
 
-    public BuildingMaterialDto getMaterialById(Long userId, Long materialId) {
+    public BuildingMaterialDto getMaterialByMaterialId(String username, Long materialId) {
         Optional<BuildingMaterial> buildingMaterial = materialRepository.findById(materialId);
-        if (!buildingMaterial.isPresent() || buildingMaterial.get().getAuthor().getId() != userId){
+        if (!buildingMaterial.isPresent() || !buildingMaterial.get().getAuthor().getUsername().equals(username)){
             throw new AccessDeniedException();
         }
         return mapper.mapToDto(buildingMaterial.get());

@@ -7,9 +7,9 @@ import pl.michal_baniowski.coutmywall.dto.CompositeMaterialDto;
 import pl.michal_baniowski.coutmywall.entity.Composite;
 import pl.michal_baniowski.coutmywall.entity.CompositeType;
 import pl.michal_baniowski.coutmywall.entity.User;
-import pl.michal_baniowski.coutmywall.exception.AccessDeniedException;
-import pl.michal_baniowski.coutmywall.exception.FailedRepositoryOperationException;
-import pl.michal_baniowski.coutmywall.exception.NoEntityFound;
+import pl.michal_baniowski.coutmywall.exception.exception.AccessDeniedException;
+import pl.michal_baniowski.coutmywall.exception.exception.FailedRepositoryOperationException;
+import pl.michal_baniowski.coutmywall.exception.exception.NoEntityFound;
 import pl.michal_baniowski.coutmywall.mapper.CompositeMapper;
 import pl.michal_baniowski.coutmywall.repository.CompositeRepositoryApi;
 import pl.michal_baniowski.coutmywall.repository.CompositeTypeRepository;
@@ -26,6 +26,8 @@ import java.util.stream.Collectors;
 @Service
 public class CompositeService {
 
+    private final double Re = 0.13;
+    private final double Ri = 0.04;
     private CompositeMaterialService compositeMaterialService;
     private CompositeMapper compositeMapper;
     private CompositeRepositoryApi compositeRepository;
@@ -63,8 +65,8 @@ public class CompositeService {
                 .mapToDouble(CompositeMaterialDto::getMaterialHeatResistance)
                 .sum();
         compositeDto.setCompositeSumOfHeatResistance(BigDecimal.valueOf(sum)
-                .add(BigDecimal.valueOf(0.04))
-                .add(BigDecimal.valueOf(0.13))
+                .add(BigDecimal.valueOf(Ri))
+                .add(BigDecimal.valueOf(Re))
                 .setScale(4, RoundingMode.HALF_DOWN)
                 .doubleValue());
     }
@@ -96,8 +98,8 @@ public class CompositeService {
                 .collect(Collectors.toList());
     }
 
-    public List<CompositeDto> getAllCompositesByName(String name, Long userId) {
-        Optional<User> userOptional = userRepository.findById(userId);
+    public List<CompositeDto> getAllCompositesByName(String name, String username) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
         if(userOptional.isPresent()) {
             return compositeRepository.findAllByName(name, userOptional.get()).stream()
                     .map(compositeMapper::mapToDto)
@@ -106,8 +108,8 @@ public class CompositeService {
         return getAllDefaultCompositesByName(name);
     }
 
-    public List<CompositeDto> getAllDefaultAndUsersComposites(Long userId) {
-        Optional<User> userOptional = userRepository.findById(userId);
+    public List<CompositeDto> getAllDefaultAndUsersComposites(String username) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
         if(userOptional.isPresent()) {
             return compositeRepository.findAllOfUsers(userOptional.get()).stream()
                     .map(compositeMapper::mapToDto)
@@ -116,9 +118,9 @@ public class CompositeService {
         return getAllDefaultComposites();
     }
 
-    public List<CompositeDto> getAllCompositesByType(Long typeId, Long userId) {
+    public List<CompositeDto> getAllCompositesByType(Long typeId, String username) {
         Optional<CompositeType> compositeTypeOptional = compositeTypeRepository.findById(typeId);
-        Optional<User> optionalUser = userRepository.findById(userId);
+        Optional<User> optionalUser = userRepository.findByUsername(username);
         if(compositeTypeOptional.isPresent() && optionalUser.isPresent()) {
             return compositeRepository.findAllByCompositeType(compositeTypeOptional.get(), optionalUser.get()).stream()
                     .map(compositeMapper::mapToDto)
@@ -127,19 +129,19 @@ public class CompositeService {
         return new ArrayList<>();
     }
 
-    public CompositeDto getCompositeById(Long compositeId, Long userId) {
+    public CompositeDto getCompositeById(Long compositeId, String username) {
         Optional<Composite> optionalComposite = compositeRepository.findById(compositeId);
-        if(!optionalComposite.isPresent() || optionalComposite.get().getAuthor().getId() != userId) {
+        if(!optionalComposite.isPresent() || !optionalComposite.get().getAuthor().getUsername().equals(username)) {
             throw new AccessDeniedException();
         }
         return compositeMapper.mapToDto(optionalComposite.get());
     }
 
-    public void updateComposite(CompositeDto compositeDto, Long compsiteId, Long userId) {
+    public void updateComposite(CompositeDto compositeDto, Long compsiteId, String username) {
         Optional<Composite> optionalComposite = compositeRepository.findById(compsiteId);
         if(optionalComposite.isPresent()) {
             Composite composite = optionalComposite.get();
-            if(composite.getAuthor().getId() != userId) {
+            if(!composite.getAuthor().getUsername().equals(username)) {
                 throw new AccessDeniedException();
             }
             Composite newComposite = compositeMapper.mapToEntity(calculateProperties(compositeDto));
@@ -165,13 +167,13 @@ public class CompositeService {
         }
     }
 
-    public void deleteComposite(Long compositeId, Long userId) {
+    public void deleteComposite(Long compositeId, String username) {
         Optional<Composite> composite = compositeRepository.findById(compositeId);
         if(!composite.isPresent()) {
             throw new NoEntityFound("Nie ma takiej przegrody w bazie");
         }
         User author = composite.get().getAuthor();
-        if(author == null || author.getId() != userId) {
+        if(author == null || !author.getUsername().equals(username)) {
             throw new AccessDeniedException();
         }
         compositeRepository.deleteComposite(compositeId);

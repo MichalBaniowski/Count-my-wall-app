@@ -1,3 +1,5 @@
+INSERT INTO user_roles(role, description) VALUES ('ROLE_USER', 'default role for user');
+
 INSERT INTO material_categories (description, name) VALUES ('materiał używany do tworzenia elementów kontrukcyjnych', 'rdzeń'); --1
 INSERT INTO material_categories (description, name) VALUES ('materiał używany do izolacji termincznej lub akustycznej elementów budowlanych', 'izolacja akustyczna/termiczna'); --2
 INSERT INTO material_categories (description, name) VALUES ('materiał używany do izolacji przeciw wodnej/wilgociowej i/lub parochronnej', 'izolacja przeciwwodna'); --3
