@@ -137,6 +137,11 @@ public class CompositeService {
         return compositeMapper.mapToDto(optionalComposite.get());
     }
 
+    public CompositeDto getCompositeById(Long compositeId) {
+        Optional<Composite> optionalComposite = compositeRepository.findById(compositeId);
+        return compositeMapper.mapToDto(optionalComposite.get());
+    }
+
     public void updateComposite(CompositeDto compositeDto, Long compsiteId, String username) {
         Optional<Composite> optionalComposite = compositeRepository.findById(compsiteId);
         if(optionalComposite.isPresent()) {

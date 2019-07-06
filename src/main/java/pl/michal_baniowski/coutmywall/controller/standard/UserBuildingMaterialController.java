@@ -36,8 +36,8 @@ public class UserBuildingMaterialController {
         return "building-materials";
     }
 
-    @GetMapping("/category/{categoryName}")
-    public String getBuildingMaterialsByCategory(Principal principal, @PathVariable String categoryName, Model model){
+    @GetMapping("/category")
+    public String getBuildingMaterialsByCategory(Principal principal,@RequestParam String categoryName, Model model){
         model.addAttribute("materials",materialService.getAllDefaultAndUsersMaterialsByCategory(principal.getName(), categoryName));
         return "building-materials";
     }

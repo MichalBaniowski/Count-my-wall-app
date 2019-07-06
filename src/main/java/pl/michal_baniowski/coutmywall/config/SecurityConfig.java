@@ -31,11 +31,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(entryPoint)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/**/user/**").authenticated()
+//                .antMatchers("/**/user/**").authenticated()
                 .anyRequest().permitAll()
-                .and()
-                .formLogin()
-                .loginPage("/loginForm");
+                .and();
+//                .formLogin()
+//                .loginPage("/loginForm");
 
     }
 }

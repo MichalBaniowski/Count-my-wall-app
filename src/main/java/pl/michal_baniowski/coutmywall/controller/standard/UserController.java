@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import pl.michal_baniowski.coutmywall.entity.User;
 import pl.michal_baniowski.coutmywall.service.UserService;
 
@@ -33,8 +34,20 @@ public class UserController {
         }
     }
 
+    @GetMapping("/test")
+    public String test() {
+        System.out.println("dupa");
+        return "redirect:/user/login";
+    }
+
+    @RequestMapping("/user/login")
+    public String loginPage(Model model) {
+        model.addAttribute("prompt", "jesteś zalogowany");
+        return "action_result";
+    }
+
     @GetMapping("/loginForm")
-    public String loginForm(HttpServletRequest request) {
+    public String loginForm() {
         return "login_form";
     }
 }

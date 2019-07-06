@@ -17,7 +17,7 @@ import pl.michal_baniowski.coutmywall.validation.CompositeCalculateValidationGro
 import java.util.List;
 
 @Controller
-@RequestMapping("/composities")
+@RequestMapping("/composites")
 public class CompositeController {
 
     private CompositeService compositeService;
@@ -42,6 +42,7 @@ public class CompositeController {
     @GetMapping("")
     public String getDefaultComposites (@RequestParam(required = false) String name, Model model) {
         if(name != null && (!name.isEmpty())) {
+            System.out.println("name : " + name);
             model.addAttribute("composites", compositeService.getAllDefaultCompositesByName(name));
         } else {
             model.addAttribute("composites", compositeService.getAllDefaultComposites());
@@ -49,10 +50,24 @@ public class CompositeController {
         return "composites";
     }
 
-    @GetMapping("/composite-type/{typeId}")
-    public String  getDefaultCompositesByType(@PathVariable Long typeId, Model model) {
-        model.addAttribute("composites", compositeService.getDefaultCompositesByType(typeId));
-        return "composites";
+    @RequestMapping("/name")
+    public String getMaterialNameForm() {
+        return"composite_name_search";
+    }
+
+    @GetMapping("/composite-type")
+    public String  getDefaultCompositesByType(@RequestParam(required = false) Long typeId, Model model) {
+        if(typeId != null){
+            model.addAttribute("composites", compositeService.getDefaultCompositesByType(typeId));
+            return "composites";
+        }
+        return "composite_type_search";
+    }
+
+    @GetMapping("/details/{id}")
+    public String getCompositeDto(@PathVariable Long id, Model model) {
+        model.addAttribute("composite", compositeService.getCompositeById(id));
+        return "composite_details";
     }
 
     @GetMapping("/calculate")

@@ -35,11 +35,22 @@ public class BuildingMaterialController {
         } else {
             model.addAttribute("buildingMaterials", materialService.getAllDefaultBuildingMaterials());
         }
-        return "building-materials";
+        return "building_materials";
     }
-    @GetMapping("/category/{categoryName}")
-    public String getDefaultBuildingMaterialsByCategory(@PathVariable String categoryName, Model model) {
-        model.addAttribute("buildingMaterials", materialService.getAllDefaultMaterialsByCategory(categoryName));
-        return "building-materials";
+
+    @RequestMapping("/name")
+    public String getMaterialNameForm() {
+        return"material_name_search";
+    }
+
+    @GetMapping("/category")
+    public String getDefaultBuildingMaterialsByCategory(@RequestParam(required = false) String categoryName, Model model) {
+        if(categoryName != null){
+            model.addAttribute("buildingMaterials", materialService.getAllDefaultMaterialsByCategory(categoryName));
+            return "building_materials";
+        } else {
+            return "material_category_search";
+        }
+
     }
 }

@@ -52,8 +52,8 @@ public class UserCompositeController {
         return "composites";
     }
 
-    @GetMapping("/composite-type/{typeId}")
-    public String getAllCompositesByType (Principal principal, @PathVariable Long typeId, Model model) {
+    @GetMapping("/composite-type")
+    public String getAllCompositesByType (Principal principal, @RequestParam Long typeId, Model model) {
         model.addAttribute("composites", compositeService.getAllCompositesByType(typeId, principal.getName()));
         return "composites";
     }

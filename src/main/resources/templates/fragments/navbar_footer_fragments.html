@@ -5,34 +5,62 @@
     <title>Title</title>
 </head>
 <body>
-<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-secondary">
-    <a class="navbar-brand" href="#">Policz mi ścianę</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-secondary shadow p-3 mb-5 rounded">
+    <a class="navbar-brand" th:href="@{/}">Policz mi ścianę</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Dropdown
+                <a class="nav-link dropdown-toggle" href="#" id="navbarMaterialDropdown" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Materiały
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-menu" aria-labelledby="navbarMaterialDropdown">
+                    <a class="dropdown-item" th:if="${principal}" th:href="@{/user/building-material}">Wyszukaj wszystkie</a>
+                    <a class="dropdown-item" th:unless="${principal}" th:href="@{/building-material}">Wyszukaj wszystkie</a>
+                    <a class="dropdown-item" th:href="@{/building-material/name}">Wyszukaj po nazwie</a>
+                    <a class="dropdown-item" th:href="@{/building-material/category}">Wyszukaj po kategorii</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
+                    <a class="dropdown-item" href="#">Dodaj</a>
+                </div>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarCompositeDropdown" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Przegrody
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarCompositeDropdown">
+                    <a class="dropdown-item" th:if="${principal}" th:href="@{/user/composites}">Wyszukaj wszystkie</a>
+                    <a class="dropdown-item" th:unless="${principal}" th:href="@{/composites}">Wyszukaj wszystkie</a>
+                    <a class="dropdown-item" th:href="@{/composites/name}">Wyszukaj po nazwie</a>
+                    <a class="dropdown-item" th:href="@{/composites/composite-type}">Wyszukaj po kategorii</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Policz</a>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                <a th:href="@{/user/login}"><button type="button" class="btn btn-secondary mr-sm-2">Zaloguj</button></a>
+            </li>
+            <li class="nav-item">
+                <a th:href="@{/register}"><button type="button" class="btn btn-secondary mr-sm-2">Zarejestruj</button></a>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+        <div class="d-flex  nav-item">
+            <div class="text-light mr-3"><i class="fas fa-user icon-user"></i></div>
+            <h5 class="text-light mr-3"th:if="${principal}" th:text="${principal.getUsername()}"></h5>
+            <h5 class="text-light mr-3"th:unless="${principal}">Gość</h5>
+        </div>
     </div>
 </nav>
+
+<footer th:fragment="footer" class="page-footer font-small bg-dark fixed-bottom rounded">
+    <div class="footer-copyright text-center text-white">
+        © 2019 Copyright: Michał Baniowski
+    </div>
+</footer>
+
 </body>
 </html>
