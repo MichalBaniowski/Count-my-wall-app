@@ -19,17 +19,17 @@
         <form th:if="${principal}" th:action="@{/user/composites/composite-type}" method="get">
             <div class="form-group">
                 <label for="userCompositeTypeNamesInput">Typ</label>
-                <select name="categoryName" class="form-control" id="userCompositeTypeNamesInput">
-                    <option th:each="type: ${compositeTypes}" th:value="${type.name}" th:text="${type.name}">Typ</option>
+                <select name="typeId" class="form-control" id="userCompositeTypeNamesInput">
+                    <option th:each="type: ${compositeTypes}" th:value="${type.id}" th:text="${type.name}">Typ</option>
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Wyszukaj</button>
         </form>
         <form th:unless="${principal}" th:action="@{/composites/composite-type}" method="get">
             <div class="form-group">
-                <label for="ompositeTypeNamesInput">Typ</label>
-                <select name="categoryName" class="form-control" id="ompositeTypeNamesInput">
-                    <option th:each="type: ${compositeTypes}" th:value="${type.name}" th:text="${type.name}">Typ</option>
+                <label for="compositeTypeNamesInput">Typ</label>
+                <select name="typeId" class="form-control" id="compositeTypeNamesInput">
+                    <option th:each="type: ${compositeTypes}" th:value="${type.id}" th:text="${type.name}">Typ</option>
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Wyszukaj</button>
