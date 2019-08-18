@@ -6,7 +6,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import pl.michal_baniowski.coutmywall.entity.BuildingMaterial;
 import pl.michal_baniowski.coutmywall.entity.MaterialCategory;
-import pl.michal_baniowski.coutmywall.entity.User;
+import pl.michal_baniowski.coutmywall.entity.auth.User;
 
 import javax.transaction.Transactional;
 import java.util.List;

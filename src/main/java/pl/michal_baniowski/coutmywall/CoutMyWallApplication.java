@@ -8,7 +8,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class CoutMyWallApplication {
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext run = SpringApplication.run(CoutMyWallApplication.class, args);
+        SpringApplication.run(CoutMyWallApplication.class, args);
     }
 
 }

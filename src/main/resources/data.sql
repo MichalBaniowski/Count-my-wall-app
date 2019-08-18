@@ -1,4 +1,13 @@
-INSERT INTO user_roles(role, description) VALUES ('ROLE_USER', 'default role for user');
+INSERT INTO roles(role) VALUES ('ROLE_USER');
+INSERT INTO roles(role) VALUES ('ROLE_ADMIN');
+INSERT INTO roles(role) VALUES ('ROLE_SUPER_ADMIN');
+
+INSERT INTO users(email, enabled, password, username) VALUES('admin@email', 1, '$2a$10$cN3SVg7y1feWzpSWJMc4UOHJRsANibzvIY83jG3M/YmXX85mHNyFW', 'admin');--1
+INSERT INTO users(email, enabled, password, username) VALUES('user1@email', 1, '$2a$10$cN3SVg7y1feWzpSWJMc4UOHJRsANibzvIY83jG3M/YmXX85mHNyFW', 'user1');--2
+
+INSERT INTO user_role(user_id, role_id) VALUES(1,2);
+INSERT INTO user_role(user_id, role_id) VALUES(1,3);
+INSERT INTO user_role(user_id, role_id) VALUES(2,1);
 
 INSERT INTO material_categories (description, name) VALUES ('materiał używany do tworzenia elementów kontrukcyjnych', 'rdzeń'); --1
 INSERT INTO material_categories (description, name) VALUES ('materiał używany do izolacji termincznej lub akustycznej elementów budowlanych', 'izolacja akustyczna/termiczna'); --2
@@ -13,8 +22,6 @@ INSERT INTO composite_types (name) VALUES ('stropodach'); --4
 INSERT INTO composite_types (name) VALUES ('dach stromy'); --5
 INSERT INTO composite_types (name) VALUES ('płyta fundamentowa'); --6
 INSERT INTO composite_types (name) VALUES ('strop nad nieogrzewaną piwnicą'); --7
-
-INSERT INTO users (email, password, username) VALUES ('testowy@testowy.pl', 'testowy', 'testowy'); --1
 
 INSERT INTO building_materials (name, thermal_conductivity, steam_transfer_coefficient) VALUES ('żelbet', 2.2, 30); --1
 INSERT INTO building_materials (name, thermal_conductivity, steam_transfer_coefficient) VALUES ('beton z kruszywa wapiennego', 0.72, 150); --2

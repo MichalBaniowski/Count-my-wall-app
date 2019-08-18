@@ -6,7 +6,7 @@ import pl.michal_baniowski.coutmywall.dto.CompositeDto;
 import pl.michal_baniowski.coutmywall.dto.CompositeMaterialDto;
 import pl.michal_baniowski.coutmywall.entity.Composite;
 import pl.michal_baniowski.coutmywall.entity.CompositeType;
-import pl.michal_baniowski.coutmywall.entity.User;
+import pl.michal_baniowski.coutmywall.entity.auth.User;
 import pl.michal_baniowski.coutmywall.exception.exception.AccessDeniedException;
 import pl.michal_baniowski.coutmywall.exception.exception.FailedRepositoryOperationException;
 import pl.michal_baniowski.coutmywall.exception.exception.NoEntityFound;
@@ -99,9 +99,9 @@ public class CompositeService {
     }
 
     public List<CompositeDto> getAllCompositesByName(String name, String username) {
-        Optional<User> userOptional = userRepository.findByUsername(username);
-        if(userOptional.isPresent()) {
-            return compositeRepository.findAllByName(name, userOptional.get()).stream()
+        User user = userRepository.findByUsername(username);
+        if(user != null) {
+            return compositeRepository.findAllByName(name, user).stream()
                     .map(compositeMapper::mapToDto)
                     .collect(Collectors.toList());
         }
@@ -109,9 +109,9 @@ public class CompositeService {
     }
 
     public List<CompositeDto> getAllDefaultAndUsersComposites(String username) {
-        Optional<User> userOptional = userRepository.findByUsername(username);
-        if(userOptional.isPresent()) {
-            return compositeRepository.findAllOfUsers(userOptional.get()).stream()
+        User user = userRepository.findByUsername(username);
+        if(user!= null) {
+            return compositeRepository.findAllOfUsers(user).stream()
                     .map(compositeMapper::mapToDto)
                     .collect(Collectors.toList());
         }
@@ -120,9 +120,9 @@ public class CompositeService {
 
     public List<CompositeDto> getAllCompositesByType(Long typeId, String username) {
         Optional<CompositeType> compositeTypeOptional = compositeTypeRepository.findById(typeId);
-        Optional<User> optionalUser = userRepository.findByUsername(username);
-        if(compositeTypeOptional.isPresent() && optionalUser.isPresent()) {
-            return compositeRepository.findAllByCompositeType(compositeTypeOptional.get(), optionalUser.get()).stream()
+        User user = userRepository.findByUsername(username);
+        if(compositeTypeOptional.isPresent() && user != null) {
+            return compositeRepository.findAllByCompositeType(compositeTypeOptional.get(), user).stream()
                     .map(compositeMapper::mapToDto)
                     .collect(Collectors.toList());
         }

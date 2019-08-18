@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pl.michal_baniowski.coutmywall.entity.BuildingMaterial;
 import pl.michal_baniowski.coutmywall.entity.MaterialCategory;
-import pl.michal_baniowski.coutmywall.entity.User;
+import pl.michal_baniowski.coutmywall.entity.auth.User;
 
 import java.util.List;
 import java.util.Optional;

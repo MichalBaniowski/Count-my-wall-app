@@ -24,6 +24,6 @@ public class BuildingMaterialDto {
     private Double steamTransferCoefficient;
     @NotEmpty
     private List<String> materialCategoryNames = new ArrayList<>();
-    @NotNull
+//    @NotNull
     private String authorName;
 }

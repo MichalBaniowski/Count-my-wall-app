@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.michal_baniowski.coutmywall.dto.CompositeDto;
 import pl.michal_baniowski.coutmywall.entity.Composite;
 import pl.michal_baniowski.coutmywall.entity.CompositeType;
+import pl.michal_baniowski.coutmywall.entity.auth.User;
 import pl.michal_baniowski.coutmywall.repository.CompositeTypeRepository;
 import pl.michal_baniowski.coutmywall.repository.UserRepository;
 
@@ -41,9 +42,8 @@ public class CompositeMapper implements DtoMapper<Composite, CompositeDto> {
                 .map(compositeMaterialMapper::mapToEntity)
                 .collect(Collectors.toList()));
         if(dtoObject.getAuthor() != null){
-            userRepository.findByUsername(dtoObject.getAuthor()).ifPresent(
-                    author -> composite.setAuthor(author)
-            );
+            User user = userRepository.findByUsername(dtoObject.getAuthor());
+            composite.setAuthor(user);
         }
         composite.setCompositeDiffusionResistance(dtoObject.getCompositeDiffusionResistance());
         composite.setCompositeSumOfHeatResistance(dtoObject.getCompositeSumOfHeatResistance());

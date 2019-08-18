@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import pl.michal_baniowski.coutmywall.entity.Composite;
 import pl.michal_baniowski.coutmywall.entity.CompositeMaterial;
 import pl.michal_baniowski.coutmywall.entity.CompositeType;
-import pl.michal_baniowski.coutmywall.entity.User;
+import pl.michal_baniowski.coutmywall.entity.auth.User;
 
 import java.util.List;
 import java.util.Optional;

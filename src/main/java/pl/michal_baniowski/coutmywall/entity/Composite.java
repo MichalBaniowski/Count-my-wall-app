@@ -3,6 +3,7 @@ package pl.michal_baniowski.coutmywall.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.michal_baniowski.coutmywall.entity.auth.User;
 
 import javax.persistence.*;
 import java.util.ArrayList;

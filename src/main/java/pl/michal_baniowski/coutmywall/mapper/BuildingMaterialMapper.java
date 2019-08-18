@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.michal_baniowski.coutmywall.dto.BuildingMaterialDto;
 import pl.michal_baniowski.coutmywall.entity.BuildingMaterial;
 import pl.michal_baniowski.coutmywall.entity.MaterialCategory;
+import pl.michal_baniowski.coutmywall.entity.auth.User;
 import pl.michal_baniowski.coutmywall.repository.MaterialCategoryRepository;
 import pl.michal_baniowski.coutmywall.repository.UserRepository;
 
@@ -30,9 +31,8 @@ public class BuildingMaterialMapper implements DtoMapper<BuildingMaterial, Build
                 .map(categoryRepository::findByName)
                 .collect(Collectors.toList()));
         if(dtoObject.getAuthorName() != null){
-            userRepository.findByUsername(dtoObject.getAuthorName()).ifPresent(
-                    author -> buildingMaterial.setAuthor(author)
-            );
+            User user = userRepository.findByUsername(dtoObject.getAuthorName());
+            buildingMaterial.setAuthor(user);
         }
         buildingMaterial.setSteamTransferCoefficient(dtoObject.getSteamTransferCoefficient());
         buildingMaterial.setThermalConductivity(dtoObject.getThermalConductivity());

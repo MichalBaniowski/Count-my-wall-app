@@ -2,14 +2,15 @@ package pl.michal_baniowski.coutmywall.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import pl.michal_baniowski.coutmywall.entity.User;
-
-import javax.transaction.Transactional;
-import java.util.Optional;
+import pl.michal_baniowski.coutmywall.entity.auth.User;
 
 @Repository
-@Transactional
 public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User>findByEmail(String email);
-    Optional<User>findByUsername(String userName);
+    User findByEmail(String email);
+
+    User findByUsername(String userName);
+
+    boolean existsByEmail(String email);
+
+    boolean existsByUsername(String username);
 }

@@ -6,7 +6,7 @@ import pl.michal_baniowski.coutmywall.dto.BuildingMaterialDto;
 import pl.michal_baniowski.coutmywall.entity.BuildingMaterial;
 import pl.michal_baniowski.coutmywall.entity.CompositeMaterial;
 import pl.michal_baniowski.coutmywall.entity.MaterialCategory;
-import pl.michal_baniowski.coutmywall.entity.User;
+import pl.michal_baniowski.coutmywall.entity.auth.User;
 import pl.michal_baniowski.coutmywall.exception.exception.AccessDeniedException;
 import pl.michal_baniowski.coutmywall.exception.exception.FailedRepositoryOperationException;
 import pl.michal_baniowski.coutmywall.exception.exception.NoEntityFound;
@@ -61,9 +61,9 @@ public class BuildingMaterialService {
     }
 
     public List<BuildingMaterialDto> getAllMaterialsByName(String name, String username) {
-        Optional<User> userOptional = userRepository.findByUsername(username);
-        if (userOptional.isPresent()) {
-            return materialRepository.findAllByName(name, userOptional.get()).stream()
+        User user = userRepository.findByUsername(username);
+        if (user != null) {
+            return materialRepository.findAllByName(name, user).stream()
                     .map(mapper::mapToDto)
                     .collect(Collectors.toList());
         }
@@ -71,9 +71,9 @@ public class BuildingMaterialService {
     }
 
     public List<BuildingMaterialDto> getAllDefaultAndUsersMaterials(String username) {
-        Optional<User> userOptional = userRepository.findByUsername(username);
-        if (userOptional.isPresent()) {
-            return materialRepository.findAll(userOptional.get()).stream()
+        User user = userRepository.findByUsername(username);
+        if (user != null) {
+            return materialRepository.findAll(user).stream()
                     .map(mapper::mapToDto)
                     .collect(Collectors.toList());
         }
@@ -81,12 +81,12 @@ public class BuildingMaterialService {
     }
 
     public List<BuildingMaterialDto> getAllDefaultAndUsersMaterialsByCategory(String username, String categoryName) {
-        Optional<User> userOptional = userRepository.findByUsername(username);
-        if (!userOptional.isPresent()) {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
             getAllDefaultMaterialsByCategory(categoryName);
         }
         List<MaterialCategory> categories = categoryRepository.findByNameLike(categoryName);
-        User author = userOptional.get();
+        User author = user;
         return materialRepository.findAllByCategories(categories, author).stream()
                 .map(mapper::mapToDto)
                 .collect(Collectors.toList());
