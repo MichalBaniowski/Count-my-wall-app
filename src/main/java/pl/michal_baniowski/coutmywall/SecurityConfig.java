@@ -24,13 +24,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .userDetailsService(userDetailsService());
+                .userDetailsService(applicationUserDetailService());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
         http
+                .httpBasic().and()
                 .authorizeRequests()
                 .antMatchers("/api/user/**").authenticated()
                 .anyRequest().permitAll().and()
