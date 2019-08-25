@@ -4,6 +4,7 @@
 ## Table of contents
 * [General info](#general-info)
 * [Technologies](#technologies)
+* [Screenshots](#screenshots)
 * [Features](#features)
 * [Status](#status)
 
@@ -25,6 +26,15 @@ The calculation method is based on norm :PN-EN ISO 6946:1999 and requirements on
 * Spring Data
 * Data Base - MySql - version 8.0.13
 
+## Screenshots
+>Endpoints - Swagger UI
+![enpoints](imgs/endpoints.png)
+>Building materials - Swagger UI
+![building material](imgs/building_material_.png)
+>Composite - Swagger UI
+![composite](imgs/composite_.png)
+>building material - PUT - Swagger UI
+![building material - put](imgs/building_material_put.png)
 
 ## Features
 * anonymous user has access to:
