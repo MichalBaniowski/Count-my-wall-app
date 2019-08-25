@@ -40,7 +40,8 @@ The calculation method is based on norm :PN-EN ISO 6946:1999 and requirements on
     - create / read / update / delete his/her building materials and composites
 
 TO-DO list:
-* add admin role functionality 
+* add admin role functionality
+* add unit tests 
 * add Rooms Energy Balance Module which can calculate and summarize energy efficiency of rooms.
 * add front end REST API
 
