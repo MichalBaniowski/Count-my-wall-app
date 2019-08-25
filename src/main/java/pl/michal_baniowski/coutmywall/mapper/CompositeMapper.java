@@ -8,7 +8,9 @@ import pl.michal_baniowski.coutmywall.entity.CompositeType;
 import pl.michal_baniowski.coutmywall.entity.auth.User;
 import pl.michal_baniowski.coutmywall.repository.CompositeTypeRepository;
 import pl.michal_baniowski.coutmywall.repository.UserRepository;
+import pl.michal_baniowski.coutmywall.service.HeatTransferCoeficientRequirementsService;
 
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -18,14 +20,17 @@ public class CompositeMapper implements DtoMapper<Composite, CompositeDto> {
     private CompositeTypeRepository typeRepository;
     private CompositeMaterialMapper compositeMaterialMapper;
     private UserRepository userRepository;
+    private HeatTransferCoeficientRequirementsService requirementsService;
 
     @Autowired
     public CompositeMapper(CompositeTypeRepository typeRepository,
                            CompositeMaterialMapper compositeMaterialMapper,
-                           UserRepository userRepository) {
+                           UserRepository userRepository,
+                           HeatTransferCoeficientRequirementsService requirementsService) {
         this.typeRepository = typeRepository;
         this.compositeMaterialMapper = compositeMaterialMapper;
         this.userRepository = userRepository;
+        this.requirementsService = requirementsService;
     }
 
     @Override
@@ -67,6 +72,8 @@ public class CompositeMapper implements DtoMapper<Composite, CompositeDto> {
         compositeDto.setCompositeDiffusionResistance(entityObject.getCompositeDiffusionResistance());
         compositeDto.setCompositeSumOfHeatResistance(entityObject.getCompositeSumOfHeatResistance());
         compositeDto.setCompositeHeatTransferCoefficient(entityObject.getCompositeHeatTransferCoefficient());
+        compositeDto.setRequirementsResultMap(new HashMap<>());
+        requirementsService.checkRequirements(compositeDto);
         return compositeDto;
     }
 }

@@ -33,17 +33,20 @@ public class CompositeService {
     private CompositeRepositoryApi compositeRepository;
     private UserRepository userRepository;
     private CompositeTypeRepository compositeTypeRepository;
+    private HeatTransferCoeficientRequirementsService requirementsService;
     @Autowired
     public CompositeService(CompositeMaterialService compositeMaterialService,
                             CompositeMapper compositeMapper,
                             CompositeRepositoryApi compositeRepository,
                             UserRepository userRepository,
-                            CompositeTypeRepository compositeTypeRepository) {
+                            CompositeTypeRepository compositeTypeRepository,
+                            HeatTransferCoeficientRequirementsService requirementsService) {
         this.compositeMaterialService = compositeMaterialService;
         this.compositeMapper = compositeMapper;
         this.compositeRepository = compositeRepository;
         this.userRepository = userRepository;
         this.compositeTypeRepository = compositeTypeRepository;
+        this.requirementsService = requirementsService;
     }
     public CompositeDto calculateProperties(CompositeDto compositeDto) {
         compositeDto.getCompositeMaterials().stream()
@@ -52,6 +55,7 @@ public class CompositeService {
         calculateSumDiffusionResist(compositeDto);
         calculateSumHeatResist(compositeDto);
         calculateHeatTransferCoefficient(compositeDto);
+        requirementsService.checkRequirements(compositeDto);
         return compositeDto;
     }
     private void calculateSumDiffusionResist(CompositeDto compositeDto) {

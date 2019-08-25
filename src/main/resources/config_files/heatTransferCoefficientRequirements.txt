@@ -1,0 +1,8 @@
+ściana zewnętrzna=0.23,01-01-2017
+ściana zewnętrzna=0.20,01-01-2021
+dach stromy=0.18,01-01-2017
+dach stromy=0.15,01-01-2021
+stropodach=0.18,01-01-2017
+stropodach=0.15,01-01-2021
+płyta fundamentowa=0.30,01-01-2017
+strop nad nieogrzewaną piwnicą=0.25,01-01-2017

@@ -9,11 +9,13 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
 public class CompositeDto {
     private Long id;
+    private Map<String, String> requirementsResultMap;
     @NotNull(groups = {CompositeCalculateValidationGroup.class, CompleteEntityValidationGroup.class})
     private String compositeType;
     @NotBlank(groups = CompleteEntityValidationGroup.class)
